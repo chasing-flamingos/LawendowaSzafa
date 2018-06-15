@@ -16,8 +16,8 @@ class CartTestCase(unittest.TestCase):
     def prepare_cart(self):
         self.driver.get("https://lawendowaszafa24.pl/pl/p/Balsam-do-wlosow-nawilzajacy-do-wlosow-oslabionych-i-farbowanych%2C-400ml-Natura-Estonica-Bio/3138")
         
-        add_to_cart_button = self.driver.find_element_by_xpath("//*[@id=\"box_productfull\"]/div[2]/div/div/div[2]/div[2]/div[1]/form/fieldset[1]/div[2]/button")
-        amount_input = self.driver.find_element_by_xpath("//*[@id=\"box_productfull\"]/div[2]/div/div/div[2]/div[2]/div[1]/form/fieldset[1]/div[1]/span[2]/input")
+        add_to_cart_button = self.driver.find_element_by_xpath("//form//div[contains(@class, 'button_wrap')]/button[contains(@class, 'addtobasket')]")
+        amount_input = self.driver.find_element_by_xpath("//div[contains(@class, 'quantity_wrap')]//input[contains(@class, 'short')]")
         
         amount_input.clear()
         amount_input.send_keys("1")
@@ -25,12 +25,12 @@ class CartTestCase(unittest.TestCase):
 
         try:
             element = WebDriverWait(self.driver, 20).until(
-                EC.visibility_of_element_located((By.XPATH, "//*[@id=\"shop_product3138\"]/div[contains(@class, 'modal-visible')]"))
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-header')]//span[contains(text(), 'Pomyślnie dodano do koszyka')]"))
             )
         except:
             pass
 
-        continue_button = self.driver.find_element_by_xpath("//div[contains(@class, 'modal-visible')]//a[contains(text(), 'Kontynuuj zakupy')]")
+        continue_button = self.driver.find_element_by_xpath("//div[contains(@class, 'ajax-product-block')]/a[contains(@class, 'btn left')]")
         continue_button.click()
 
 
@@ -40,8 +40,8 @@ class CartTestCase(unittest.TestCase):
     def test_add_to_cart(self):
         self.driver.get("https://lawendowaszafa24.pl/pl/p/Balsam-do-wlosow-nawilzajacy-do-wlosow-oslabionych-i-farbowanych%2C-400ml-Natura-Estonica-Bio/3138")
         
-        add_to_cart_button = self.driver.find_element_by_xpath("//*[@id=\"box_productfull\"]/div[2]/div/div/div[2]/div[2]/div[1]/form/fieldset[1]/div[2]/button")
-        amount_input = self.driver.find_element_by_xpath("//*[@id=\"box_productfull\"]/div[2]/div/div/div[2]/div[2]/div[1]/form/fieldset[1]/div[1]/span[2]/input")
+        add_to_cart_button = self.driver.find_element_by_xpath("//form//div[contains(@class, 'button_wrap')]/button[contains(@class, 'addtobasket')]")
+        amount_input = self.driver.find_element_by_xpath("//div[contains(@class, 'quantity_wrap')]//input[contains(@class, 'short')]")
         
         amount_input.clear()
         amount_input.send_keys("1")
@@ -49,7 +49,7 @@ class CartTestCase(unittest.TestCase):
 
         try:
             element = WebDriverWait(self.driver, 20).until(
-                EC.visibility_of_element_located((By.XPATH, "//*[@id=\"shop_product3138\"]/div[contains(@class, 'modal-visible')]"))
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-header')]//span[contains(text(), 'Pomyślnie dodano do koszyka')]"))
             )
         except:
             pass
@@ -57,8 +57,8 @@ class CartTestCase(unittest.TestCase):
     def test_add_to_cart_zero_item(self):
         self.driver.get("https://lawendowaszafa24.pl/pl/p/Intensywny-krem-przeciwzmarszczkowy-do-twarzy-NIEDZWIEDZIA-SILA-dla-prawdziwych-mezczyzn-Natura-Siberica-MEN/2239")
         
-        add_to_cart_button = self.driver.find_element_by_xpath("//*[@id=\"box_productfull\"]/div[2]/div/div/div[2]/div[2]/div[1]/form/fieldset[1]/div[2]/button")
-        amount_input = self.driver.find_element_by_xpath("//*[@id=\"box_productfull\"]/div[2]/div/div/div[2]/div[2]/div[1]/form/fieldset[1]/div[1]/span[2]/input")
+        add_to_cart_button = self.driver.find_element_by_xpath("//form//div[contains(@class, 'button_wrap')]/button[contains(@class, 'addtobasket')]")
+        amount_input = self.driver.find_element_by_xpath("//div[contains(@class, 'quantity_wrap')]//input[contains(@class, 'short')]")
         
         amount_input.clear()
         amount_input.send_keys("0")
@@ -66,7 +66,7 @@ class CartTestCase(unittest.TestCase):
 
         try:
             element = WebDriverWait(self.driver, 20).until(
-                EC.visibility_of_element_located((By.XPATH, "//*[@id=\"shop_product2239\"]/div[15]"))
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-alert')]//div[contains(text(), 'Nieprawidłowa ilość produktów.')]"))
             )
         except:
             pass
@@ -74,25 +74,25 @@ class CartTestCase(unittest.TestCase):
     def test_add_to_cart_out_of_stock(self):
         self.driver.get("https://lawendowaszafa24.pl/pl/c/PIELEGNACJA-WLOSOW/93")
 
-        availability_notifier_button = self.driver.find_element_by_xpath("//*[@id=\"box_mainproducts\"]/div[2]/div[1]/div[11]/div/div[3]/form/fieldset/button")
+        availability_notifier_button = self.driver.find_element_by_xpath("(//form[contains(@class, 'availability-notifier')] //button[contains(@class, 'availability-notifier-btn')])[2]")
         availability_notifier_button.click()
 
         try:
             element = WebDriverWait(self.driver, 20).until(
-                EC.visibility_of_element_located((By.XPATH, "//*[@id=\"shop_category93\"]/div[12]"))
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-visible')]//h3[contains(text(), 'Powiadom mnie o dostępności')]"))
             )
         except:
             pass
         
-        add_email_button = self.driver.find_element_by_xpath("//*[@id=\"shop_category93\"]/div[12]/div[2]/div/form/p[3]/button")
-        email_input = self.driver.find_element_by_xpath("//*[@id=\"shop_category93\"]/div[12]/div[2]/div/form/p[3]/input")
+        add_email_button = self.driver.find_element_by_xpath("//p/button[contains(@class, 'btn btn-red')]")
+        email_input = self.driver.find_element_by_xpath("//p/input")
         email_input.send_keys("katarzyna@op.pl")
         add_email_button.click()
 
 
         try:
             element = WebDriverWait(self.driver, 20).until(
-                EC.visibility_of_element_located((By.XPATH, "//*[@id=\"shop_category93\"]/div[12]"))
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-alert')]"))
             )
         except:
             pass
@@ -102,32 +102,32 @@ class CartTestCase(unittest.TestCase):
         self.prepare_cart()
 
         time.sleep(10)
-        cart_button = self.driver.find_element_by_xpath("/html/body/div[2]/div[2]/header/div[1]/div[2]/a")
+        cart_button = self.driver.find_element_by_xpath("//div[contains(@class, 'basket')]/a[contains(@class, 'count')]")
         cart_button.click()
 
         try:
             element = WebDriverWait(self.driver, 10).until(
-                EC.visibility_of_element_located((By.XPATH, "/html/body/div[2]/div[2]/header/div[2]"))
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'basket-contain')]"))
             )
         except:
             pass
         
         time.sleep(5)
-        open_cart = self.driver.find_element_by_xpath("/html/body/div[2]/div[2]/header/div[2]/div[2]/a")
+        open_cart = self.driver.find_element_by_xpath("//div[contains(@class, 'basket-contain')]//a[contains(text(), 'do kasy')]")
         open_cart.click()
 
     def test_search(self):
 
         self.driver.get("https://lawendowaszafa24.pl/")
-        search_button = self.driver.find_element_by_xpath("/html/body/div[2]/div[2]/header/div[1]/form/fieldset/button")
-        search_input = self.driver.find_element_by_xpath("/html/body/div[2]/div[2]/header/div[1]/form/fieldset/input")
+        search_button = self.driver.find_element_by_xpath("//form[contains(@class, 'search-form')]//button[contains(@class, 'search-btn')]")
+        search_input = self.driver.find_element_by_xpath("//form[contains(@class, 'search-form')]//input[contains(@class, 'search-input')]")
         search_input.clear()
         search_input.send_keys("balsam")
         search_button.click()
         
         try:
             element = WebDriverWait(self.driver, 10).until(
-                EC.visibility_of_element_located((By.XPATH, "//*[@id=\"box_mainproducts\"]/div[1]/h1"))
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'boxhead')]/h1[contains(text(), 'Znaleziono produktów')]"))
             )
         except:
             pass
