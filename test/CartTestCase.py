@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+from test.page_objects.CategoryPage import CategoryPage
 
 class CartTestCase(unittest.TestCase):
     def setUp(self):
@@ -74,7 +75,10 @@ class CartTestCase(unittest.TestCase):
     def test_add_to_cart_out_of_stock(self):
         self.driver.get("https://lawendowaszafa24.pl/pl/c/PIELEGNACJA-WLOSOW/93")
 
-        availability_notifier_button = self.driver.find_element_by_xpath("(//form[contains(@class, 'availability-notifier')] //button[contains(@class, 'availability-notifier-btn')])[2]")
+        category_page = CategoryPage(self.driver)
+        category_page.discard_cookie_banner()
+
+        availability_notifier_button = self.driver.find_element_by_xpath("(//form[contains(@class, 'availability-notifier')] //button[contains(@class, 'availability-notifier-btn')])[1]")
         availability_notifier_button.click()
 
         try:
@@ -131,6 +135,53 @@ class CartTestCase(unittest.TestCase):
             )
         except:
             pass
+
+    def test_product_preview(self):
+
+        self.driver.get("https://lawendowaszafa24.pl/pl/c/PIELEGNACJA-WLOSOW/93")
+        preview_button = self.driver.find_element_by_xpath("(//div[contains(@class, 'buttons f-row')]/a[contains(@class, 'btn large tablet quickview')])[1]")
+        preview_button.click()
+
+        try:
+            element = WebDriverWait(self.driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-visible')]"))
+            )
+        except:
+            pass
+
+        close_button = self.driver.find_element_by_xpath("//div[@class='modal-close']/span[@class='modal-close-txt']")
+        close_button.click()
+
+    def test_remove_item_from_cart(self):
+
+        self.prepare_cart()
+
+        time.sleep(10)
+        cart_button = self.driver.find_element_by_xpath("//div[contains(@class, 'basket')]/a[contains(@class, 'count')]")
+        cart_button.click()
+
+        try:
+            element = WebDriverWait(self.driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'basket-contain')]"))
+            )
+        except:
+            pass
+
+
+        time.sleep(5)
+        open_cart = self.driver.find_element_by_xpath("//div[contains(@class, 'basket-contain')]//a[contains(text(), 'do kasy')]")
+        open_cart.click()
+
+        remove_button = self.driver.find_element_by_xpath("(//td[@class='actions']/a[@class='prodremove'])[1]")
+        remove_button.click()
+        
+
+
+
+
+
+
+
 
 
 

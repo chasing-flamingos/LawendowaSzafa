@@ -8,6 +8,8 @@ def suite():
     suite.addTest(CartTestCase('test_add_to_cart_out_of_stock'))
     suite.addTest(CartTestCase('test_view_cart'))
     suite.addTest(CartTestCase('test_search'))
+    suite.addTest(CartTestCase('test_product_preview'))
+    suite.addTest(CartTestCase('test_remove_item_from_cart'))
     return suite
 
 if __name__ == '__main__':
