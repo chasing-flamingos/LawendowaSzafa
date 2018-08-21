@@ -75,31 +75,12 @@ class CartTestCase(unittest.TestCase):
     def test_add_to_cart_out_of_stock(self):
         self.driver.get("https://lawendowaszafa24.pl/pl/c/PIELEGNACJA-WLOSOW/93")
 
-        category_page = CategoryPage(self.driver)
-        category_page.discard_cookie_banner()
-
-        availability_notifier_button = self.driver.find_element_by_xpath("(//form[contains(@class, 'availability-notifier')] //button[contains(@class, 'availability-notifier-btn')])[1]")
-        availability_notifier_button.click()
-
-        try:
-            element = WebDriverWait(self.driver, 20).until(
-                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-visible')]//h3[contains(text(), 'Powiadom mnie o dostępności')]"))
-            )
-        except:
-            pass
-        
-        add_email_button = self.driver.find_element_by_xpath("//p/button[contains(@class, 'btn btn-red')]")
-        email_input = self.driver.find_element_by_xpath("//p/input")
-        email_input.send_keys("katarzyna@op.pl")
-        add_email_button.click()
-
-
-        try:
-            element = WebDriverWait(self.driver, 20).until(
-                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-alert')]"))
-            )
-        except:
-            pass
+        CategoryPage(self.driver).discard_cookie_banner()                                   \
+                                 .click_notify_me_about_availability()                      \
+                                 .expect_availability_notifier_modal()                      \
+                                 .fill_in_availability_notifier_email("katarzyna@op.pl")    \
+                                 .click_availability_notifier_add_me_button()               \
+                                 .expect_availability_notifier_success_confirmation()
 
     def test_view_cart(self):
         
