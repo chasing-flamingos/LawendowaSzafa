@@ -49,3 +49,8 @@ class CategoryPage(object):
             pass
 
         return self
+
+    def add_available_item_to_cart(self):
+        add_to_cart = self.driver.find_element_by_xpath("(//form//button[contains(@class, 'addtobasket')])[1]")
+        add_to_cart.click()
+        return self

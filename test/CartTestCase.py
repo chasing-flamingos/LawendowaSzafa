@@ -15,14 +15,10 @@ class CartTestCase(unittest.TestCase):
         )
 
     def prepare_cart(self):
-        self.driver.get("https://lawendowaszafa24.pl/pl/p/Balsam-do-wlosow-nawilzajacy-do-wlosow-oslabionych-i-farbowanych%2C-400ml-Natura-Estonica-Bio/3138")
-        
-        add_to_cart_button = self.driver.find_element_by_xpath("//form//div[contains(@class, 'button_wrap')]/button[contains(@class, 'addtobasket')]")
-        amount_input = self.driver.find_element_by_xpath("//div[contains(@class, 'quantity_wrap')]//input[contains(@class, 'short')]")
-        
-        amount_input.clear()
-        amount_input.send_keys("1")
-        add_to_cart_button.click()
+        self.driver.get("https://lawendowaszafa24.pl/pl/c/Anti-Hair-Loss/2912")
+        category_page = CategoryPage(self.driver)
+        category_page.discard_cookie_banner()
+        category_page.add_available_item_to_cart()
 
         try:
             element = WebDriverWait(self.driver, 20).until(
@@ -98,16 +94,16 @@ class CartTestCase(unittest.TestCase):
             pass
         
         time.sleep(5)
-        open_cart = self.driver.find_element_by_xpath("//div[contains(@class, 'basket-contain')]//a[contains(text(), 'do kasy')]")
-        open_cart.click()
+        products = self.driver.find_elements_by_xpath("//table[contains(@class, 'productlist')]/tbody/tr")
+        assert len(products) == 1
 
     def test_search(self):
 
         self.driver.get("https://lawendowaszafa24.pl/")
-        search_button = self.driver.find_element_by_xpath("//form[contains(@class, 'search-form')]//button[contains(@class, 'search-btn')]")
         search_input = self.driver.find_element_by_xpath("//form[contains(@class, 'search-form')]//input[contains(@class, 'search-input')]")
         search_input.clear()
         search_input.send_keys("balsam")
+        search_button = self.driver.find_element_by_xpath("//form[contains(@class, 'search-form')]//button[contains(@class, 'search-btn')]")
         search_button.click()
         
         try:
