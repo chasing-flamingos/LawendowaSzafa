@@ -146,22 +146,10 @@ class CartTestCase(unittest.TestCase):
 
 
         time.sleep(5)
-        open_cart = self.driver.find_element_by_xpath("//div[contains(@class, 'basket-contain')]//a[contains(text(), 'do kasy')]")
-        open_cart.click()
+        cart_button = self.driver.find_element_by_xpath("//div[contains(@class, 'basket')]/a[contains(@class, 'count')]")
+        cart_button.click()
 
         remove_button = self.driver.find_element_by_xpath("(//td[@class='actions']/a[@class='prodremove'])[1]")
         remove_button.click()
         
-
-
-
-
-
-
-
-
-
-
-        
-
 
