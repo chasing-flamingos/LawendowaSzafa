@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 from test.page_objects.CategoryPage import CategoryPage
+from test.page_objects.CartPage import CartPage
 
 class CartTestCase(unittest.TestCase):
     def setUp(self):
@@ -19,17 +20,8 @@ class CartTestCase(unittest.TestCase):
         category_page = CategoryPage(self.driver)
         category_page.discard_cookie_banner()
         category_page.add_available_item_to_cart()
-
-        try:
-            element = WebDriverWait(self.driver, 20).until(
-                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-header')]//span[contains(text(), 'Pomyślnie dodano do koszyka')]"))
-            )
-        except:
-            pass
-
-        continue_button = self.driver.find_element_by_xpath("//div[contains(@class, 'ajax-product-block')]/a[contains(@class, 'btn left')]")
-        continue_button.click()
-
+        category_page.expect_add_to_cart_success_modal()
+        category_page.click_continue_shopping_button()
 
     def tearDown(self):
         self.driver.close()
@@ -79,23 +71,19 @@ class CartTestCase(unittest.TestCase):
                                  .expect_availability_notifier_success_confirmation()
 
     def test_view_cart(self):
-        
         self.prepare_cart()
 
         time.sleep(10)
-        cart_button = self.driver.find_element_by_xpath("//div[contains(@class, 'basket')]/a[contains(@class, 'count')]")
-        cart_button.click()
 
-        try:
-            element = WebDriverWait(self.driver, 10).until(
-                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'basket-contain')]"))
-            )
-        except:
-            pass
+        category_page = CategoryPage(self.driver)
+        category_page.click_go_to_cart_button()
+
+        cart_page = CartPage(self.driver)
+        cart_page.expect_products_table()
         
         time.sleep(5)
-        products = self.driver.find_elements_by_xpath("//table[contains(@class, 'productlist')]/tbody/tr")
-        assert len(products) == 1
+
+        cart_page.expect_products_table_item_count_to_be(1)
 
     def test_search(self):
 

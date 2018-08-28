@@ -54,3 +54,19 @@ class CategoryPage(object):
         add_to_cart = self.driver.find_element_by_xpath("(//form//button[contains(@class, 'addtobasket')])[1]")
         add_to_cart.click()
         return self
+
+    def expect_add_to_cart_success_modal(self):
+        try:
+            element = WebDriverWait(self.driver, 20).until(
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-header')]//span[contains(text(), 'Pomyślnie dodano do koszyka')]"))
+            )
+        except:
+            pass
+
+    def click_continue_shopping_button(self):
+        continue_button = self.driver.find_element_by_xpath("//div[contains(@class, 'ajax-product-block')]/a[contains(@class, 'btn left')]")
+        continue_button.click()
+
+    def click_go_to_cart_button(self):
+        cart_button = self.driver.find_element_by_xpath("//div[contains(@class, 'basket')]/a[contains(@class, 'count')]")
+        cart_button.click()
