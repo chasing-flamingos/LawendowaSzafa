@@ -113,21 +113,6 @@ class CartTestCase(unittest.TestCase):
         except:
             pass
 
-    def test_product_preview(self):
-
-        self.driver.get("https://lawendowaszafa24.pl/pl/c/PIELEGNACJA-WLOSOW/93")
-        preview_button = self.driver.find_element_by_xpath("(//div[contains(@class, 'buttons f-row')]/a[contains(@class, 'btn large tablet quickview')])[1]")
-        preview_button.click()
-
-        try:
-            element = WebDriverWait(self.driver, 10).until(
-                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-visible')]"))
-            )
-        except:
-            pass
-
-        close_button = self.driver.find_element_by_xpath("//div[@class='modal-close']/span[@class='modal-close-txt']")
-        close_button.click()
 
     def test_remove_item_from_cart(self):
 
