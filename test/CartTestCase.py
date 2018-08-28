@@ -35,7 +35,7 @@ class CartTestCase(unittest.TestCase):
         self.driver.close()
 
     def test_add_to_cart(self):
-        self.driver.get("https://lawendowaszafa24.pl/pl/p/Balsam-do-wlosow-nawilzajacy-do-wlosow-oslabionych-i-farbowanych%2C-400ml-Natura-Estonica-Bio/3138")
+        self.driver.get("https://lawendowaszafa24.pl/pl/p/DUETUS-Peeling-do-twarzy-75-ml-SYLVECO/5565")
         
         add_to_cart_button = self.driver.find_element_by_xpath("//form//div[contains(@class, 'button_wrap')]/button[contains(@class, 'addtobasket')]")
         amount_input = self.driver.find_element_by_xpath("//div[contains(@class, 'quantity_wrap')]//input[contains(@class, 'short')]")
