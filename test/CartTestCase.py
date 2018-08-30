@@ -84,22 +84,16 @@ class CartTestCase(unittest.TestCase):
         self.prepare_cart()
 
         time.sleep(10)
-        cart_button = self.driver.find_element_by_xpath("//div[contains(@class, 'basket')]/a[contains(@class, 'count')]")
-        cart_button.click()
+        category_page = CategoryPage(self.driver)
+        category_page.click_go_to_cart_button()
 
-        try:
-            element = WebDriverWait(self.driver, 10).until(
-                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'basket-contain')]"))
-            )
-        except:
-            pass
-
+        cart_page = CartPage(self.driver)
+        cart_page.expect_products_table()
 
         time.sleep(5)
-        cart_button = self.driver.find_element_by_xpath("//div[contains(@class, 'basket')]/a[contains(@class, 'count')]")
-        cart_button.click()
 
-        remove_button = self.driver.find_element_by_xpath("(//td[@class='actions']/a[@class='prodremove'])[1]")
-        remove_button.click()
-        
+        cart_page.expect_products_table_item_count_to_be(1)
+        cart_page.click_remove_product_from_cart()
+        cart_page.expect_products_table_item_count_to_be(0)
+
 

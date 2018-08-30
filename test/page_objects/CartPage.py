@@ -18,3 +18,7 @@ class CartPage(object):
     def expect_products_table_item_count_to_be(self, n):
         products = self.driver.find_elements_by_xpath("//table[contains(@class, 'productlist')]/tbody/tr")
         assert len(products) == n
+
+    def click_remove_product_from_cart(self):
+        remove_button = self.driver.find_element_by_xpath("(//td[@class='actions']/a[@class='prodremove'])[1]")
+        remove_button.click()
