@@ -23,3 +23,11 @@ class ProductPage(object):
             )
         except:
             pass
+
+    def expect_add_to_cart_wrong_product_count_modal(self):
+        try:
+            element = WebDriverWait(self.driver, 20).until(
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-alert')]//div[contains(text(), 'Nieprawidłowa ilość produktów.')]"))
+            )
+        except:
+            pass

@@ -36,20 +36,10 @@ class CartTestCase(unittest.TestCase):
 
     def test_add_to_cart_zero_item(self):
         self.driver.get("https://lawendowaszafa24.pl/pl/p/Intensywny-krem-przeciwzmarszczkowy-do-twarzy-NIEDZWIEDZIA-SILA-dla-prawdziwych-mezczyzn-Natura-Siberica-MEN/2239")
-        
-        add_to_cart_button = self.driver.find_element_by_xpath("//form//div[contains(@class, 'button_wrap')]/button[contains(@class, 'addtobasket')]")
-        amount_input = self.driver.find_element_by_xpath("//div[contains(@class, 'quantity_wrap')]//input[contains(@class, 'short')]")
-        
-        amount_input.clear()
-        amount_input.send_keys("0")
-        add_to_cart_button.click()
-
-        try:
-            element = WebDriverWait(self.driver, 20).until(
-                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-alert')]//div[contains(text(), 'Nieprawidłowa ilość produktów.')]"))
-            )
-        except:
-            pass
+        product_page = ProductPage(self.driver)
+        product_page.select_product_count(0)
+        product_page.click_add_to_cart_button()
+        product_page.expect_add_to_cart_wrong_product_count_modal()
 
     def test_add_to_cart_out_of_stock(self):
         self.driver.get("https://lawendowaszafa24.pl/pl/c/PIELEGNACJA-WLOSOW/93")
