@@ -8,6 +8,8 @@ import time
 from test.page_objects.CategoryPage import CategoryPage
 from test.page_objects.CartPage import CartPage
 from test.page_objects.ProductPage import ProductPage
+from test.page_objects.MainPage import MainPage
+from test.page_objects.SearchResultsPage import SearchResultsPage
 
 class CartTestCase(unittest.TestCase):
     def setUp(self):
@@ -69,18 +71,12 @@ class CartTestCase(unittest.TestCase):
     def test_search(self):
 
         self.driver.get("https://lawendowaszafa24.pl/")
-        search_input = self.driver.find_element_by_xpath("//form[contains(@class, 'search-form')]//input[contains(@class, 'search-input')]")
-        search_input.clear()
-        search_input.send_keys("balsam")
-        search_button = self.driver.find_element_by_xpath("//form[contains(@class, 'search-form')]//button[contains(@class, 'search-btn')]")
-        search_button.click()
-        
-        try:
-            element = WebDriverWait(self.driver, 10).until(
-                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'boxhead')]/h1[contains(text(), 'Znaleziono produktów')]"))
-            )
-        except:
-            pass
+        main_page = MainPage(self.driver)
+        main_page.enter_search_query("balsam")
+        main_page.click_search_button()
+
+        search_results_page = SearchResultsPage(self.driver)
+        search_results_page.expect_search_results_table()
 
 
     def test_remove_item_from_cart(self):
