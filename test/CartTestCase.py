@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 from test.page_objects.CategoryPage import CategoryPage
 from test.page_objects.CartPage import CartPage
+from test.page_objects.ProductPage import ProductPage
 
 class CartTestCase(unittest.TestCase):
     def setUp(self):
@@ -28,20 +29,10 @@ class CartTestCase(unittest.TestCase):
 
     def test_add_to_cart(self):
         self.driver.get("https://lawendowaszafa24.pl/pl/p/DUETUS-Peeling-do-twarzy-75-ml-SYLVECO/5565")
-        
-        add_to_cart_button = self.driver.find_element_by_xpath("//form//div[contains(@class, 'button_wrap')]/button[contains(@class, 'addtobasket')]")
-        amount_input = self.driver.find_element_by_xpath("//div[contains(@class, 'quantity_wrap')]//input[contains(@class, 'short')]")
-        
-        amount_input.clear()
-        amount_input.send_keys("1")
-        add_to_cart_button.click()
-
-        try:
-            element = WebDriverWait(self.driver, 20).until(
-                EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'modal-header')]//span[contains(text(), 'Pomyślnie dodano do koszyka')]"))
-            )
-        except:
-            pass
+        product_page = ProductPage(self.driver)
+        product_page.select_product_count(1)
+        product_page.click_add_to_cart_button()
+        product_page.expect_add_to_cart_success_modal()
 
     def test_add_to_cart_zero_item(self):
         self.driver.get("https://lawendowaszafa24.pl/pl/p/Intensywny-krem-przeciwzmarszczkowy-do-twarzy-NIEDZWIEDZIA-SILA-dla-prawdziwych-mezczyzn-Natura-Siberica-MEN/2239")
